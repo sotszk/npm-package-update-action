@@ -7,7 +7,7 @@ async function run() {
     const input = core.getInput('input');
     core.debug(input);
     await wait(2000);
-    core.setOutput(input);
+    core.setOutput('out', input);
   } catch (error) {
     core.setFailed(error.message);
   }
