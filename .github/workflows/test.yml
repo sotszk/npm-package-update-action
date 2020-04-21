@@ -13,9 +13,8 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - run: ls -alt
-    - run: |
-      npm i
-      npm run test
+    - run: npm i
+    - run: npm run test
 
   # test action works running from the graph
   test:
