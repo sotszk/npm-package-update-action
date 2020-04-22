@@ -23,6 +23,4 @@ jobs:
     - uses: actions/checkout@v1
     - uses: ./
       with:
-        execute_directories:
-          - 'hoge'
-          - 'fuga'
+        execute_directories: 'hoge,fuga'
