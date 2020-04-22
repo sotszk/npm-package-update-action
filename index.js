@@ -5,7 +5,7 @@ const core = require('@actions/core');
 async function run() {
   try {
     const executeDirs = core.getInput('execute_directories');
-    console.log(executeDirs);
+    console.log(executeDirs.length);
   } catch (error) {
     core.setFailed(error.message);
   }
