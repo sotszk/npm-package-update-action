@@ -30,6 +30,6 @@ test('test runs', () => {
 test('just run', async (done) => {
   process.env.INPUT_EXECUTE_DIRECTORIES = ['fuga', 'hoge'];
   await run();
-  expect(5 + 5).toBe(10);
+  console.log(cp.execSync('node -v').toString());
   done();
 });
