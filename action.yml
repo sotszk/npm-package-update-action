@@ -1,12 +1,18 @@
-name: 'Echo'
-description: 'Just Echo'
+name: 'Npm package update'
+description: 'npm package update'
+author: 'SotaSuzuki'
 inputs:
-  in:
-    description: 'input'
-    required: true
+  execute_directories:
+    description: 'directories that command executes'
 outputs:
-  out:
-    description: 'output'
+  has_npm_update:
+    description: 'has new package version?'
+  has_major_npm_update:
+    description: 'has new major package version?'
+  npm_update_json:
+    description: 'new package version info with json'
+  npm_update_formatted:
+    description: 'new package version infor with formatted text'
 runs:
   using: 'node12'
   main: 'dist/index.js'
