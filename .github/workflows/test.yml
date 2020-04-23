@@ -20,7 +20,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: ./
-      with:
-        execute_directories: 'hoge,fuga'
+      - uses: actions/checkout@v1
+      - uses: ./
+        id: package_update
+        with:
+          execute_directories: |
+            hoge
+            fuga
+      - name: Get the output
+        run: echo 'output has_npm_update: ${{ steps.package_update.outputs.has_npm_update }}'
+        run: echo 'output has_major_npm_update: ${{ steps.package_update.outputs.has_major_npm_update }}'
