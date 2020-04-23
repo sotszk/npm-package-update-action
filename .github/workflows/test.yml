@@ -27,6 +27,5 @@ jobs:
           execute_directories: |
             hoge
             fuga
-      - name: Get the output
-        run: echo 'output has_npm_update: ${{ steps.package_update.outputs.has_npm_update }}'
-        run: echo 'output has_major_npm_update: ${{ steps.package_update.outputs.has_major_npm_update }}'
+      - run: echo 'output has_npm_update: ${{ steps.package_update.outputs.has_npm_update }}'
+      - run: echo 'output has_major_npm_update: ${{ steps.package_update.outputs.has_major_npm_update }}'
