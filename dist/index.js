@@ -390,8 +390,8 @@ async function run() {
       packages.forEach((item) => result.push(item));
     }
 
-    core.setOutput('has_npm_update', 'yes');
-    core.setOutput('has_major_npm_update', 'no');
+    core.setOutput('has_npm_update', true);
+    core.setOutput('has_major_npm_update', false);
     core.setOutput('npm_update_formatted', '');
     core.setOutput('npm_update_json', JSON.stringify(result));
   } catch (error) {
