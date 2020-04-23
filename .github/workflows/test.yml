@@ -29,3 +29,4 @@ jobs:
             fuga
       - run: echo "output has_npm_update ${{ steps.package_update.outputs.has_npm_update }}"
       - run: echo "output has_major_npm_update ${{ steps.package_update.outputs.has_major_npm_update }}"
+      - run: echo "output npm_update_formatted ${{ steps.package_update.outputs.npm_update_formatted }}"
