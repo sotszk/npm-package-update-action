@@ -28,18 +28,18 @@ async function run() {
     const result = [];
 
     const which = await io.which('npm', true);
-    console.log('which', which);
+    // console.log('which', which);
 
     const options = await getOptions();
-    console.log(options);
+    // console.log(options);
 
     if (options.executeDirectories === null) {
       const packages = executeOutdated();
       packages.forEach((item) => result.push(item));
     }
 
-    core.setOutput('has_npm_update', true);
-    core.setOutput('has_major_npm_update', false);
+    core.setOutput('has_npm_update', 'yes');
+    core.setOutput('has_major_npm_update', 'no');
     core.setOutput('npm_update_formatted', '');
     core.setOutput('npm_update_json', JSON.stringify(result));
   } catch (error) {
