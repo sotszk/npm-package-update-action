@@ -7,6 +7,7 @@ const {
   format,
   formatForMajorUpdate,
   formatToColumns,
+  formatToColumnsWithoutMajorUpdate,
 } = require('./lib');
 
 async function getOptions() {
@@ -83,6 +84,10 @@ async function run() {
     core.setOutput(
       'npm_update_formatted_columns',
       await formatToColumns(result)
+    );
+    core.setOutput(
+      'npm_update_formatted_columns_without_major_update',
+      await formatToColumnsWithoutMajorUpdate(result)
     );
     core.setOutput(
       'npm_update_formatted_major_update',

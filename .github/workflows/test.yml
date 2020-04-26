@@ -39,7 +39,7 @@ jobs:
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          fields: repo,ref
+          fields: repo
           text: |
             :white_check_mark: Succeeded GitHub Actions
             *New major update available*
