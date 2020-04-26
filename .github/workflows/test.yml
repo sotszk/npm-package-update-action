@@ -38,7 +38,7 @@ jobs:
             ↓↓↓
 
             ```
-            ${{ steps.package_update.outputs.has_npm_update }}
+            ????
             ```
           username: 'アップデートマン'
           mention: 'UF660LNH2'
