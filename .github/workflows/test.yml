@@ -22,24 +22,38 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: npm i
+      - run: npm update
       - uses: ./
         id: package_update
-      - run: echo "output has_npm_update ${{ steps.package_update.outputs.has_npm_update }}"
-      - run: echo "output has_major_npm_update ${{ steps.package_update.outputs.has_major_npm_update }}"
-      # - run: echo "output npm_update_formatted ${{ steps.package_update.outputs.npm_update_formatted }}"
-      - run: echo "output npm_update_json ${{ steps.package_update.outputs.npm_update_json }}"
+      - name: Create Commit
+        run: |
+          git config user.name 'SotaSuzuki'
+          git config user.email '3.3sota.suzuki@gmail.com'
+          git add -A
+          git commit -m 'Update npm packages'
+      - name: Create pull request
+        id: cpr
+        uses: peter-evans/create-pull-request@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            # HOGE
+            - hoge
+            - hoge
+          branch: example-patch
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
           fields: author
           text: |
-            ```
-            has update: ${{ steps.package_update.outputs.has_npm_update }}
-            has major update: ${{ steps.package_update.outputs.has_major_npm_update }}
-
             **New major update available**
+
+            ```
             ${{ steps.package_update.outputs.npm_update_formatted_major_update }}
             ```
+
+            **Create Pull Request**
+            Pull Request Number: ${{ steps.cpr.outputs.pr_number }}
           username: 'アップデートマン'
           mention: 'UF660LNH2'
           if_mention: always
