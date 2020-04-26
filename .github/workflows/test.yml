@@ -28,3 +28,11 @@ jobs:
       - run: echo "output has_major_npm_update ${{ steps.package_update.outputs.has_major_npm_update }}"
       # - run: echo "output npm_update_formatted ${{ steps.package_update.outputs.npm_update_formatted }}"
       - run: echo "output npm_update_json ${{ steps.package_update.outputs.npm_update_json }}"
+      - uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields:
+            message: ${{ steps.package_update.outputs.npm_update_json }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
