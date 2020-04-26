@@ -1,4 +1,4 @@
-name: "package-update"
+name: 'package-update'
 on:
   pull_request:
   push:
@@ -33,7 +33,7 @@ jobs:
           body: |
             # Updated packages
 
-            ${{ steps.package_update.outputs.npm_update_formatted_columns }}
+            ${{ steps.package_update.outputs.npm_update_formatted_columns_without_major_update }}
 
             createdAt: ${{ steps.current_date.outputs.date }}
       - uses: 8398a7/action-slack@v3
