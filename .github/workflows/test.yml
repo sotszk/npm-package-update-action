@@ -38,7 +38,11 @@ jobs:
             ↓↓↓
 
             ```
-            ????
+            has update: ${{ steps.package_update.outputs.has_npm_update }}
+            has major update: ${{ steps.package_update.outputs.has_major_npm_update }}
+
+            **New update available**:
+            ${{ steps.package_update.outputs.npm_update_formatted }}
             ```
           username: 'アップデートマン'
           mention: 'UF660LNH2'
