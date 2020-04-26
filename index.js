@@ -19,7 +19,7 @@ async function getOptions() {
 }
 
 async function executeOutdated(executeDirectory) {
-  const execOptions = {};
+  const execOptions = { ignoreReturnCode: true };
   if (executeDirectory) {
     execOptions.cwd = executeDirectory;
   }
