@@ -971,34 +971,31 @@ async function executeOutdated(executeDirectory) {
   }
 
   let stdout = '';
-  // execOptions.listeners = {
-  //   stdout: (data) => {
-  //     stdout += data.toString();
-  //   },
-  // };
+  execOptions.listeners = {
+    stdout: (data) => {
+      stdout += data.toString();
+    },
+  };
   const args = ['--long', '--json'];
 
   await exec('npm outdated', args, execOptions);
 
-  // ---
-  // if (stdout.trim().length === 0) {
-  //   return [];
-  // }
+  if (stdout.trim().length === 0) {
+    return [];
+  }
 
-  return [stdout];
+  const json = JSON.parse(stdout);
 
-  // const json = JSON.parse(stdout);
-
-  // return Object.keys(json).map((key) => {
-  //   const { current, wanted, latest, homepage } = json[key];
-  //   return {
-  //     name: key,
-  //     current,
-  //     wanted,
-  //     latest,
-  //     homepage,
-  //   };
-  // });
+  return Object.keys(json).map((key) => {
+    const { current, wanted, latest, homepage } = json[key];
+    return {
+      name: key,
+      current,
+      wanted,
+      latest,
+      homepage,
+    };
+  });
 }
 
 async function run() {
