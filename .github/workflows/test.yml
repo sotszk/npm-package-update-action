@@ -31,7 +31,8 @@ jobs:
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          text: ${{ steps.package_update.outputs.npm_update_json }}
+          fields: author
+          text: ```${{ steps.package_update.outputs.npm_update_json }}```
           username: '謎の人'
           author_name: '一切謎'
           mention: 'UF660LNH2'
