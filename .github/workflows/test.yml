@@ -58,3 +58,4 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: steps.package_update.outputs.has_major_npm_update == true
+      - run: echo ${{ steps.package_update.outputs.has_major_npm_update }}
