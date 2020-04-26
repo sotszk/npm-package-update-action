@@ -4,7 +4,7 @@ const getMajorVersion = (versionString) => {
   return parseInt(versionString.split('.')[0]);
 };
 
-const hasMajorUpdate = async (pkgs) => {
+const hasMajorUpdate = (pkgs) => {
   return pkgs.some(({ current, latest }) => {
     const currentMajorVersion = getMajorVersion(current);
     const latestMajorVersion = getMajorVersion(latest);
@@ -12,7 +12,7 @@ const hasMajorUpdate = async (pkgs) => {
   });
 };
 
-const format = async (pkgs) => {
+const format = (pkgs) => {
   let result = '';
   pkgs.forEach((pkg, index) => {
     if (index > 0) {
