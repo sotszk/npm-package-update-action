@@ -25,19 +25,19 @@ async function executeOutdated(executeDirectory) {
   }
 
   let stdout = '';
-  execOptions.listeners = {
-    stdout: (data) => {
-      stdout += data.toString();
-    },
-  };
+  // execOptions.listeners = {
+  //   stdout: (data) => {
+  //     stdout += data.toString();
+  //   },
+  // };
   const args = ['--long', '--json'];
 
   await exec('npm outdated', args, execOptions);
 
   // ---
-  if (stdout.trim().length === 0) {
-    return [];
-  }
+  // if (stdout.trim().length === 0) {
+  //   return [];
+  // }
 
   return [stdout];
 
