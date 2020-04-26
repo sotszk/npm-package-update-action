@@ -71,8 +71,8 @@ async function run() {
     }
 
     core.setOutput('has_npm_update', result.length > 0);
-    core.setOutput('has_major_npm_update', hasMajorUpdate(result));
-    core.setOutput('npm_update_formatted', format(result));
+    core.setOutput('has_major_npm_update', await hasMajorUpdate(result));
+    core.setOutput('npm_update_formatted', await format(result));
     core.setOutput('npm_update_json', JSON.stringify(result));
   } catch (error) {
     core.setFailed(error.message);
