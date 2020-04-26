@@ -39,14 +39,14 @@ jobs:
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          fields: action
+          fields: repo,ref
           text: |
             :white_check_mark: Succeeded GitHub Actions
             *New major update available*
 
             ```${{ steps.package_update.outputs.npm_update_formatted_major_update }}```
 
-            *Pull Request created*
+            *Pull Request created (for minor update)*
             URL: https://github.com/${{ github.repository }}/pull/${{ steps.cpr.outputs.pr_number }}
           author_name: ${{ github.actor }}
           username: 'アップデートおじさん'
