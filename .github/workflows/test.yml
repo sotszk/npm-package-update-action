@@ -1,4 +1,4 @@
-name: "units-test"
+name: "package-update"
 on:
   pull_request:
   push:
@@ -7,19 +7,12 @@ on:
       - 'releases/*'
 
 jobs:
-  # unit tests
-  units:
+  pacage-update:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - run: ls -alt
-    - run: npm i
-    - run: npm run test
-
-  # test action works running from the graph
-  test:
-    runs-on: ubuntu-latest
-    steps:
+      - name: Get current date
+        id: current_date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - uses: actions/checkout@v2
       - name: Npm install
         run: npm i
@@ -34,13 +27,17 @@ jobs:
           token: ${{ github.token }}
           title: Update npm packages
           commit-message: Update npm packages
-          branch: package-update/timestamp
+          branch: package-update/${{ steps.current_date.outputs.date }}
           labels: ''
           reviewers: ''
           body: |
             # Package Update
 
-            createdAt: ${{ github.committed_at }}
+            ```
+            ${{ steps.package_update.outputs.npm_update_json }}
+            ```
+
+            createdAt: ${{ steps.current_date.outputs.date }}
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
