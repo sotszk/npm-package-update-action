@@ -1284,10 +1284,25 @@ const format = async (pkgs) => {
   return result;
 };
 
+const formatForMajorUpdate = async (pkgs) => {
+  let result = '';
+  pkgs.forEach((pkg, index) => {
+    if (getMajorVersion(pkg.latest) <= getMajorVersion(pkg.current)) {
+      return;
+    }
+    if (index > 0) {
+      result += os.EOL;
+    }
+    result += `${pkg.name}: ${pkg.current} -> ${pkg.latest} see ${pkg.homepage}`;
+  });
+  return result;
+};
+
 module.exports = {
   getMajorVersion,
   hasMajorUpdate,
   format,
+  formatForMajorUpdate,
 };
 
 
@@ -1524,7 +1539,7 @@ const io = __webpack_require__(1);
 const { exec } = __webpack_require__(986);
 const os = __webpack_require__(87);
 // const github = require('@actions/github');
-const { hasMajorUpdate, format } = __webpack_require__(478);
+const { hasMajorUpdate, format, formatForMajorUpdate } = __webpack_require__(478);
 
 async function getOptions() {
   const executeDirectories = core
@@ -1597,6 +1612,10 @@ async function run() {
       (await hasMajorUpdate(result)) ? 'true' : 'false'
     );
     core.setOutput('npm_update_formatted', await format(result));
+    core.setOutput(
+      'npm_update_formatted_major_update',
+      await formatForMajorUpdate(result)
+    );
     core.setOutput('npm_update_json', JSON.stringify(result));
   } catch (error) {
     core.setFailed(error.message);

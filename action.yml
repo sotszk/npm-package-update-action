@@ -12,7 +12,9 @@ outputs:
   npm_update_json:
     description: 'new package version info with json'
   npm_update_formatted:
-    description: 'new package version infor with formatted text'
+    description: 'new package version info with formatted text'
+  npm_update_formatted_major_update:
+    description: 'new package version info that has major update available with formatted text'
 runs:
   using: 'node12'
   main: 'dist/index.js'

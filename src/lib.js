@@ -23,8 +23,23 @@ const format = async (pkgs) => {
   return result;
 };
 
+const formatForMajorUpdate = async (pkgs) => {
+  let result = '';
+  pkgs.forEach((pkg, index) => {
+    if (getMajorVersion(pkg.latest) <= getMajorVersion(pkg.current)) {
+      return;
+    }
+    if (index > 0) {
+      result += os.EOL;
+    }
+    result += `${pkg.name}: ${pkg.current} -> ${pkg.latest} see ${pkg.homepage}`;
+  });
+  return result;
+};
+
 module.exports = {
   getMajorVersion,
   hasMajorUpdate,
   format,
+  formatForMajorUpdate,
 };
