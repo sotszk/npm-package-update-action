@@ -31,10 +31,12 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: 'Update npm packages'
-          commit-message: 'Update npm packages'
-          branch: package-update/${{ github.committed_at }}
+          token: ${{ github.token }}
+          title: Update npm packages
+          commit-message: Update npm packages
+          branch: package-update/timestamp
+          labels: ''
+          reviewers: ''
           body: |
             # Package Update
 
@@ -42,16 +44,17 @@ jobs:
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          fields: ''
+          fields: action
           text: |
+            ```
             **New major update available**
 
-            ```
             ${{ steps.package_update.outputs.npm_update_formatted_major_update }}
             ```
 
             **Create Pull Request**
             Pull Request Number: ${{ steps.cpr.outputs.pr_number }}
+          author_name: ${{ github.actor }}
           username: 'アップデートマン'
           mention: 'UF660LNH2'
           if_mention: always
