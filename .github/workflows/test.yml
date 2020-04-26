@@ -27,14 +27,6 @@ jobs:
         id: package_update
       - name: Npm update
         run: npm update
-      # - name: Create Commit
-      #   run: |
-      #     git config user.name 'SotaSuzuki'
-      #     git config user.email '3.3sota.suzuki@gmail.com'
-      #     git checkout master
-      #     git checkout -b example-patch
-      #     git add -A
-      #     git commit -m 'Update npm packages'
       - name: Create pull request
         id: cpr
         uses: peter-evans/create-pull-request@v2
@@ -42,14 +34,15 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: 'Update npm packages'
           commit-message: 'Update npm packages'
+          branch: package-update/${{ github.committed_at }}
           body: |
-            # HOGE
-            - hoge
-            - hoge
+            # Package Update
+
+            createdAt: ${{ github.committed_at }}
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          fields: author
+          fields: ''
           text: |
             **New major update available**
 
@@ -65,4 +58,5 @@ jobs:
           icon_emoji: ':octocat:'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: steps.package_update.outputs.has_major_npm_update == 'true'
+        if: always()
+        # if: steps.package_update.outputs.has_major_npm_update == 'true'
