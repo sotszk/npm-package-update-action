@@ -31,10 +31,10 @@ jobs:
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          fields: 'message,author'
           text: ${{ steps.package_update.outputs.npm_update_json }}
           username: '謎の人'
-          icon_url: 'https://i.pinimg.com/originals/31/9c/d0/319cd080271bb07f7bfd55adfc622ed4.jpg'
+          mention: 'sota.suzuki'
+          icon_emoji: ':eyes:'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: always()
