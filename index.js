@@ -40,17 +40,15 @@ async function executeOutdated(executeDirectory) {
   }
 
   const json = JSON.parse(stdout);
-  console.log('json', json);
 
   return Object.keys(json).map((key) => {
-    const { current, wanted, latest, homepage } = json[key];
-    console.log('values: ', current, wanted, latest, homepage);
+    const { current, wanted, latest } = json[key];
     return {
       name: key,
       current,
       wanted,
       latest,
-      homepage,
+      // homepage,
     };
   });
 }
