@@ -34,7 +34,7 @@ module.exports =
 /******/ 	// the startup function
 /******/ 	function startup() {
 /******/ 		// Load entry module and return exports
-/******/ 		return __webpack_require__(104);
+/******/ 		return __webpack_require__(676);
 /******/ 	};
 /******/
 /******/ 	// run startup
@@ -941,104 +941,6 @@ module.exports = require("os");
 
 /***/ }),
 
-/***/ 104:
-/***/ (function(module, __unusedexports, __webpack_require__) {
-
-const core = __webpack_require__(470);
-const io = __webpack_require__(1);
-const { exec } = __webpack_require__(986);
-const os = __webpack_require__(87);
-// const github = require('@actions/github');
-
-async function getOptions() {
-  const executeDirectories = core
-    .getInput('execute_directories')
-    .split(os.EOL)
-    .map((item) => item.trim());
-
-  return {
-    executeDirectories:
-      executeDirectories.length === 1 && executeDirectories[0].length === 0
-        ? null
-        : executeDirectories,
-  };
-}
-
-async function executeOutdated(executeDirectory) {
-  const execOptions = { ignoreReturnCode: true };
-  if (executeDirectory) {
-    execOptions.cwd = executeDirectory;
-  }
-
-  let stdout = '';
-  execOptions.listeners = {
-    stdout: (data) => {
-      stdout += data.toString();
-    },
-  };
-  const args = ['--long', '--json'];
-
-  await exec('npm outdated', args, execOptions);
-
-  if (stdout.trim().length === 0) {
-    return [];
-  }
-
-  const json = JSON.parse(stdout);
-
-  return Object.keys(json).map((key) => {
-    const { current, wanted, latest, homepage } = json[key];
-    return {
-      name: key,
-      current,
-      wanted,
-      latest,
-      homepage,
-    };
-  });
-}
-
-async function run() {
-  try {
-    core.debug('Inside try block');
-
-    const result = [];
-
-    const which = await io.which('npm', true);
-    // console.log('which', which);
-
-    const options = await getOptions();
-    // console.log(options);
-
-    if (options.executeDirectories === null) {
-      const packages = await executeOutdated();
-      packages.forEach((pkg) => result.push(pkg));
-    } else {
-      for (let executeDirectory in options.executeDirectories) {
-        const packages = await executeOutdated(executeDirectory);
-        packages.forEach((pkg) => result.push(pkg));
-      }
-    }
-
-    core.setOutput('has_npm_update', 'true');
-    core.setOutput('has_major_npm_update', 'false');
-    // core.setOutput(
-    //   'npm_update_formatted',
-    //   options.executeDirectories.join(',')
-    // );
-    core.setOutput('npm_update_json', JSON.stringify(result));
-  } catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run();
-
-module.exports = run;
-
-
-/***/ }),
-
 /***/ 129:
 /***/ (function(module) {
 
@@ -1354,6 +1256,43 @@ exports.getState = getState;
 
 /***/ }),
 
+/***/ 478:
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+const os = __webpack_require__(87);
+
+const getMajorVersion = (versionString) => {
+  return parseInt(versionString.split('.')[0]);
+};
+
+const hasMajorUpdate = async (pkgs) => {
+  return pkgs.some(({ current, latest }) => {
+    const currentMajorVersion = getMajorVersion(current);
+    const latestMajorVersion = getMajorVersion(latest);
+    return latestMajorVersion > currentMajorVersion;
+  });
+};
+
+const format = async (pkgs) => {
+  let result = '';
+  pkgs.forEach((pkg, index) => {
+    if (index > 0) {
+      result += os.EOL;
+    }
+    result += `${pkg.name}: ${pkg.current}(current), ${pkg.wanted}(wanted), ${pkg.latest}(latest)`;
+  });
+  return result;
+};
+
+module.exports = {
+  getMajorVersion,
+  hasMajorUpdate,
+  format,
+};
+
+
+/***/ }),
+
 /***/ 614:
 /***/ (function(module) {
 
@@ -1574,6 +1513,97 @@ function isUnixExecutable(stats) {
         ((stats.mode & 64) > 0 && stats.uid === process.getuid()));
 }
 //# sourceMappingURL=io-util.js.map
+
+/***/ }),
+
+/***/ 676:
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+const core = __webpack_require__(470);
+const io = __webpack_require__(1);
+const { exec } = __webpack_require__(986);
+const os = __webpack_require__(87);
+// const github = require('@actions/github');
+const { hasMajorUpdate, format } = __webpack_require__(478);
+
+async function getOptions() {
+  const executeDirectories = core
+    .getInput('execute_directories')
+    .split(os.EOL)
+    .map((item) => item.trim());
+
+  return {
+    executeDirectories:
+      executeDirectories.length === 1 && executeDirectories[0].length === 0
+        ? null
+        : executeDirectories,
+  };
+}
+
+async function executeOutdated(executeDirectory) {
+  const execOptions = { ignoreReturnCode: true };
+  if (executeDirectory) {
+    execOptions.cwd = executeDirectory;
+  }
+
+  let stdout = '';
+  execOptions.listeners = {
+    stdout: (data) => {
+      stdout += data.toString();
+    },
+  };
+  const args = ['--long', '--json'];
+
+  await exec('npm outdated', args, execOptions);
+
+  if (stdout.trim().length === 0) {
+    return [];
+  }
+
+  const json = JSON.parse(stdout);
+
+  return Object.keys(json).map((key) => {
+    const { current, wanted, latest, homepage } = json[key];
+    return {
+      name: key,
+      current,
+      wanted,
+      latest,
+      homepage,
+    };
+  });
+}
+
+async function run() {
+  try {
+    const result = [];
+
+    await io.which('npm', true);
+    const options = await getOptions();
+
+    if (options.executeDirectories === null) {
+      const packages = await executeOutdated();
+      packages.forEach((pkg) => result.push(pkg));
+    } else {
+      for (let executeDirectory in options.executeDirectories) {
+        const packages = await executeOutdated(executeDirectory);
+        packages.forEach((pkg) => result.push(pkg));
+      }
+    }
+
+    core.setOutput('has_npm_update', result.length > 0);
+    core.setOutput('has_major_npm_update', await hasMajorUpdate(result));
+    core.setOutput('npm_update_formatted', await format(result));
+    core.setOutput('npm_update_json', JSON.stringify(result));
+  } catch (error) {
+    core.setFailed(error.message);
+  }
+}
+
+run();
+
+module.exports = run;
+
 
 /***/ }),
 

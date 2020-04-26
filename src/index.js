@@ -3,6 +3,7 @@ const io = require('@actions/io');
 const { exec } = require('@actions/exec');
 const os = require('os');
 // const github = require('@actions/github');
+const { hasMajorUpdate, format } = require('./lib');
 
 async function getOptions() {
   const executeDirectories = core
@@ -54,15 +55,10 @@ async function executeOutdated(executeDirectory) {
 
 async function run() {
   try {
-    core.debug('Inside try block');
-
     const result = [];
 
-    const which = await io.which('npm', true);
-    // console.log('which', which);
-
+    await io.which('npm', true);
     const options = await getOptions();
-    // console.log(options);
 
     if (options.executeDirectories === null) {
       const packages = await executeOutdated();
@@ -74,12 +70,9 @@ async function run() {
       }
     }
 
-    core.setOutput('has_npm_update', 'true');
-    core.setOutput('has_major_npm_update', 'false');
-    // core.setOutput(
-    //   'npm_update_formatted',
-    //   options.executeDirectories.join(',')
-    // );
+    core.setOutput('has_npm_update', result.length > 0);
+    core.setOutput('has_major_npm_update', await hasMajorUpdate(result));
+    core.setOutput('npm_update_formatted', await format(result));
     core.setOutput('npm_update_json', JSON.stringify(result));
   } catch (error) {
     core.setFailed(error.message);
