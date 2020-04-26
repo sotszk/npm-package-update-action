@@ -40,7 +40,13 @@ jobs:
         with:
           status: ${{ job.status }}
           fields: action
-          text: '\n*New major update available*\n```${{ steps.package_update.outputs.npm_update_formatted_major_update }}```\n\n*Create Pull Request*\nPull Request URL: https://github.com/pull/${{ steps.cpr.outputs.pr_number }}'
+          text: |
+            *New major update available*
+
+            ```${{ steps.package_update.outputs.npm_update_formatted_major_update }}```
+
+            *Pull Request created*
+            URL: https://github.com/pull/${{ steps.cpr.outputs.pr_number }}
           author_name: ${{ github.actor }}
           username: 'アップデートおじさん'
           mention: 'UF660LNH2'
