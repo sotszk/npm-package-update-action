@@ -35,11 +35,12 @@ jobs:
           text: |
             *Check outdated packages*
 
+            ↓↓↓
+
             ```
             ${{ steps.package_update.outputs.npm_update_json }}
             ```
-          username: '謎の人'
-          author_name: '一切謎'
+          username: 'アップデートマン'
           mention: 'UF660LNH2'
           if_mention: always
           icon_emoji: ':octocat:'
