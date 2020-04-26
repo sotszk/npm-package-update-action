@@ -978,7 +978,7 @@ async function executeOutdated(executeDirectory) {
   };
   const args = ['--long', '--json'];
 
-  await exec('npm outdated', args, execOptions);
+  // await exec('npm outdated', args, execOptions);
   // core.debug(stdout);
   return [];
 
