@@ -66,15 +66,17 @@ const formatToColumnsWithoutMajorUpdate = async (pkgs) => {
 
   const header = '|' + keys.join('|') + '|';
   const alignRow = '|' + keys.map(() => ':--').join('|') + '|';
-  const body = pkgs.map((pkg, index) => {
-    let row = '';
-    if (index > 0) {
-      row += os.EOL;
-    }
-    const values = keys.map((key) => pkg[key]);
-    row += '|' + values.join('|') + '|';
-    return row;
-  });
+  const body = pkgs
+    .filter((pkg) => pkg.current !== pkg.wanted)
+    .map((pkg, index) => {
+      let row = '';
+      if (index > 0) {
+        row += os.EOL;
+      }
+      const values = keys.map((key) => pkg[key]);
+      row += '|' + values.join('|') + '|';
+      return row;
+    });
 
   result += [header, alignRow, body].join(os.EOL);
   return result;
