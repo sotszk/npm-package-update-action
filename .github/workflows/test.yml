@@ -31,7 +31,7 @@ jobs:
           labels: ''
           reviewers: ''
           body: |
-            # Package Update
+            # Updated packages
 
             ${{ steps.package_update.outputs.npm_update_formatted_columns }}
 
@@ -40,16 +40,9 @@ jobs:
         with:
           status: ${{ job.status }}
           fields: action
-          text: |
-            *New major update available*
-            ```
-            ${{ steps.package_update.outputs.npm_update_formatted_major_update }}
-            ```
-
-            *Create Pull Request*
-            Pull Request URL: https://github.com/pull/${{ steps.cpr.outputs.pr_number }}
+          text: '\n*New major update available*\n```${{ steps.package_update.outputs.npm_update_formatted_major_update }}```\n\n*Create Pull Request*\nPull Request URL: https://github.com/pull/${{ steps.cpr.outputs.pr_number }}'
           author_name: ${{ github.actor }}
-          username: 'アップデートマン'
+          username: 'アップデートおじさん'
           mention: 'UF660LNH2'
           if_mention: always
           icon_emoji: ':octocat:'
