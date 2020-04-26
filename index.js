@@ -33,6 +33,7 @@ async function executeOutdated(executeDirectory) {
   const args = ['--long', '--json'];
 
   await exec('npm outdated', args, execOptions);
+  core.debug(stdout);
 
   // ---
   if (stdout.trim().length === 0) {
@@ -40,14 +41,17 @@ async function executeOutdated(executeDirectory) {
   }
 
   const json = JSON.parse(stdout);
+  core.debug(json);
 
   return Object.keys(json).map((key) => {
-    const { wanted, latest } = json[key];
+    const { current, wanted, latest, homepage } = json[key];
+    console.log('values: ', current, wanted, latest, homepage);
     return {
       name: key,
+      current,
       wanted,
       latest,
-      // homepage,
+      homepage,
     };
   });
 }
