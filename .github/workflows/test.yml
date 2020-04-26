@@ -20,11 +20,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - run: npm i
-      - run: npm update
+      - uses: actions/checkout@v2
+      - name: Npm install
+        run: npm i
       - uses: ./
         id: package_update
+      - name: Npm update
+        run: npm update
       # - name: Create Commit
       #   run: |
       #     git config user.name 'SotaSuzuki'
@@ -38,12 +40,12 @@ jobs:
         uses: peter-evans/create-pull-request@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          title: 'Update npm packages'
           commit-message: 'Update npm packages'
           body: |
             # HOGE
             - hoge
             - hoge
-          branch: example-patch
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
