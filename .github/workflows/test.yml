@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Get current date
         id: current_date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M')"
       - uses: actions/checkout@v2
       - name: Npm install
         run: npm i
@@ -34,7 +34,7 @@ jobs:
             # Package Update
 
             ```
-            ${{ steps.package_update.outputs.npm_update_json }}
+            ${{ steps.package_update.outputs.npm_update_formatted }}
             ```
 
             createdAt: ${{ steps.current_date.outputs.date }}
@@ -42,20 +42,27 @@ jobs:
         with:
           status: ${{ job.status }}
           fields: action
-          text: |
-            ```
-            **New major update available**
-
-            ${{ steps.package_update.outputs.npm_update_formatted_major_update }}
-            ```
-
-            **Create Pull Request**
-            Pull Request Number: ${{ steps.cpr.outputs.pr_number }}
+          # text: |
+          #   **Create Pull Request**
+          #   Pull Request Number: ${{ steps.cpr.outputs.pr_number }}
           author_name: ${{ github.actor }}
           username: 'アップデートマン'
           mention: 'UF660LNH2'
           if_mention: always
           icon_emoji: ':octocat:'
+          custom_payload: |
+            {
+              text: '*New major update available*',
+              blocks: [
+                {
+                  type: 'section',
+                  text: {
+                    type: 'mrkdwn',
+                    text: ${{ steps.package_update.outputs.npm_update_formatted_major_update }}
+                  }
+                }
+              ]
+            }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: always()
