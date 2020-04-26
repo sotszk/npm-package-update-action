@@ -988,10 +988,9 @@ async function executeOutdated(executeDirectory) {
   const json = JSON.parse(stdout);
 
   return Object.keys(json).map((key) => {
-    const { current, wanted, latest } = json[key];
+    const { wanted, latest } = json[key];
     return {
       name: key,
-      current,
       wanted,
       latest,
       // homepage,
