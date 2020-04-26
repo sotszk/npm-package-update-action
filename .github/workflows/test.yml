@@ -33,8 +33,9 @@ jobs:
           status: ${{ job.status }}
           text: ${{ steps.package_update.outputs.npm_update_json }}
           username: '謎の人'
-          mention: 'sota.suzuki'
-          icon_emoji: ':eyes:'
+          author_name: '一切謎'
+          mention: 'UF660LNH2'
+          icon_emoji: ':octocat:'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: always()
