@@ -43,6 +43,12 @@ jobs:
           status: ${{ job.status }}
           fields: action
           # text: |
+          #   ```
+          #   **New major update available**
+
+          #   ${{ steps.package_update.outputs.npm_update_formatted_major_update }}
+          #   ```
+
           #   **Create Pull Request**
           #   Pull Request Number: ${{ steps.cpr.outputs.pr_number }}
           author_name: ${{ github.actor }}
@@ -52,13 +58,12 @@ jobs:
           icon_emoji: ':octocat:'
           custom_payload: |
             {
-              text: '*New major update available*',
-              blocks: [
+              "blocks": [
                 {
-                  type: 'section',
-                  text: {
-                    type: 'mrkdwn',
-                    text: ${{ steps.package_update.outputs.npm_update_formatted_major_update }}
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "hogehoge _hogehoge_ ${{ github.actor }}"
                   }
                 }
               ]
