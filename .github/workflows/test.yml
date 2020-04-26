@@ -32,10 +32,16 @@ jobs:
         with:
           status: ${{ job.status }}
           fields: author
-          text: ```${{ steps.package_update.outputs.npm_update_json }}```
+          text: |
+            *Check outdated packages*
+
+            ```
+            ${{ steps.package_update.outputs.npm_update_json }}
+            ```
           username: '謎の人'
           author_name: '一切謎'
           mention: 'UF660LNH2'
+          if_mention: always
           icon_emoji: ':octocat:'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
