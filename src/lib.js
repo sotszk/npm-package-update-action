@@ -37,9 +37,25 @@ const formatForMajorUpdate = async (pkgs) => {
   return result;
 };
 
+const formatToColumns = async (pkgs) => {
+  let result = '';
+  if (!pkgs.length) {
+    return result;
+  }
+
+  const keys = Object.keys(pkgs[0]);
+
+  const heads = '|' + keys.join('|') + '|';
+  const dividingRow = '|' + keys.map(() => ':--').join('|') + '|';
+
+  result += [heads, dividingRow].join(os.EOL);
+  return result;
+};
+
 module.exports = {
   getMajorVersion,
   hasMajorUpdate,
   format,
   formatForMajorUpdate,
+  formatToColumns,
 };

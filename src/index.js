@@ -2,8 +2,12 @@ const core = require('@actions/core');
 const io = require('@actions/io');
 const { exec } = require('@actions/exec');
 const os = require('os');
-// const github = require('@actions/github');
-const { hasMajorUpdate, format, formatForMajorUpdate } = require('./lib');
+const {
+  hasMajorUpdate,
+  format,
+  formatForMajorUpdate,
+  formatToColumns,
+} = require('./lib');
 
 async function getOptions() {
   const executeDirectories = core
@@ -76,6 +80,10 @@ async function run() {
       (await hasMajorUpdate(result)) ? 'true' : 'false'
     );
     core.setOutput('npm_update_formatted', await format(result));
+    core.setOutput(
+      'npm_update_formatted_columns',
+      await formatToColumns(result)
+    );
     core.setOutput(
       'npm_update_formatted_major_update',
       await formatForMajorUpdate(result)

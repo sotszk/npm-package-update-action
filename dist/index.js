@@ -1298,11 +1298,27 @@ const formatForMajorUpdate = async (pkgs) => {
   return result;
 };
 
+const formatToColumns = async (pkgs) => {
+  let result = '';
+  if (!pkgs.length) {
+    return result;
+  }
+
+  const keys = Object.keys(pkgs[0]);
+
+  const heads = '|' + keys.join('|') + '|';
+  const dividingRow = '|' + keys.map(() => ':--').join('|') + '|';
+
+  result += [heads, dividingRow].join(os.EOL);
+  return result;
+};
+
 module.exports = {
   getMajorVersion,
   hasMajorUpdate,
   format,
   formatForMajorUpdate,
+  formatToColumns,
 };
 
 
@@ -1538,8 +1554,12 @@ const core = __webpack_require__(470);
 const io = __webpack_require__(1);
 const { exec } = __webpack_require__(986);
 const os = __webpack_require__(87);
-// const github = require('@actions/github');
-const { hasMajorUpdate, format, formatForMajorUpdate } = __webpack_require__(478);
+const {
+  hasMajorUpdate,
+  format,
+  formatForMajorUpdate,
+  formatToColumns,
+} = __webpack_require__(478);
 
 async function getOptions() {
   const executeDirectories = core
@@ -1612,6 +1632,10 @@ async function run() {
       (await hasMajorUpdate(result)) ? 'true' : 'false'
     );
     core.setOutput('npm_update_formatted', await format(result));
+    core.setOutput(
+      'npm_update_formatted_columns',
+      await formatToColumns(result)
+    );
     core.setOutput(
       'npm_update_formatted_major_update',
       await formatForMajorUpdate(result)

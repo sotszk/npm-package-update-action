@@ -34,7 +34,7 @@ jobs:
             # Package Update
 
             ```
-            ${{ steps.package_update.outputs.npm_update_formatted }}
+            ${{ steps.package_update.outputs.npm_update_formatted_columns }}
             ```
 
             createdAt: ${{ steps.current_date.outputs.date }}
@@ -57,5 +57,5 @@ jobs:
           icon_emoji: ':octocat:'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: steps.package_update.outputs.has_major_npm_update == true
+        if: steps.package_update.outputs.has_major_npm_update == 1
       - run: echo ${{ steps.package_update.outputs.has_major_npm_update }}
