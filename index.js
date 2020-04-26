@@ -39,18 +39,20 @@ async function executeOutdated(executeDirectory) {
     return [];
   }
 
-  const json = JSON.parse(stdout);
+  return [stdout];
 
-  return Object.keys(json).map((key) => {
-    const { current, wanted, latest, homepage } = json[key];
-    return {
-      name: key,
-      current,
-      wanted,
-      latest,
-      homepage,
-    };
-  });
+  // const json = JSON.parse(stdout);
+
+  // return Object.keys(json).map((key) => {
+  //   const { current, wanted, latest, homepage } = json[key];
+  //   return {
+  //     name: key,
+  //     current,
+  //     wanted,
+  //     latest,
+  //     homepage,
+  //   };
+  // });
 }
 
 async function run() {
