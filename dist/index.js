@@ -1634,10 +1634,10 @@ async function run() {
       }
     }
 
-    core.setOutput('has_npm_update', result.length > 0 ? 'true' : 'false');
+    core.setOutput('has_npm_update', result.length > 0 ? 'yes' : 'no');
     core.setOutput(
       'has_major_npm_update',
-      (await hasMajorUpdate(result)) ? 'true' : 'false'
+      (await hasMajorUpdate(result)) ? 'yes' : 'no'
     );
     core.setOutput('npm_update_formatted', await format(result));
     core.setOutput(
