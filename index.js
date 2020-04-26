@@ -33,27 +33,28 @@ async function executeOutdated(executeDirectory) {
   const args = ['--long', '--json'];
 
   await exec('npm outdated', args, execOptions);
-  core.debug(stdout);
+  // core.debug(stdout);
+  return [];
 
   // ---
-  if (stdout.trim().length === 0) {
-    return [];
-  }
+  // if (stdout.trim().length === 0) {
+  //   return [];
+  // }
 
-  const json = JSON.parse(stdout);
-  core.debug(json);
+  // const json = JSON.parse(stdout);
+  // core.debug(json);
 
-  return Object.keys(json).map((key) => {
-    const { current, wanted, latest, homepage } = json[key];
-    console.log('values: ', current, wanted, latest, homepage);
-    return {
-      name: key,
-      current,
-      wanted,
-      latest,
-      homepage,
-    };
-  });
+  // return Object.keys(json).map((key) => {
+  //   const { current, wanted, latest, homepage } = json[key];
+  //   console.log('values: ', current, wanted, latest, homepage);
+  //   return {
+  //     name: key,
+  //     current,
+  //     wanted,
+  //     latest,
+  //     homepage,
+  //   };
+  // });
 }
 
 async function run() {
