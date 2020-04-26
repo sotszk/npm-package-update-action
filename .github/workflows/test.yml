@@ -25,19 +25,20 @@ jobs:
       - run: npm update
       - uses: ./
         id: package_update
-      - name: Create Commit
-        run: |
-          git config user.name 'SotaSuzuki'
-          git config user.email '3.3sota.suzuki@gmail.com'
-          git checkout master
-          git checkout -b example-patch
-          git add -A
-          git commit -m 'Update npm packages'
+      # - name: Create Commit
+      #   run: |
+      #     git config user.name 'SotaSuzuki'
+      #     git config user.email '3.3sota.suzuki@gmail.com'
+      #     git checkout master
+      #     git checkout -b example-patch
+      #     git add -A
+      #     git commit -m 'Update npm packages'
       - name: Create pull request
         id: cpr
         uses: peter-evans/create-pull-request@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'Update npm packages'
           body: |
             # HOGE
             - hoge
