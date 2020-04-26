@@ -40,7 +40,7 @@ jobs:
             createdAt: ${{ steps.current_date.outputs.date }}
       - uses: 8398a7/action-slack@v3
         with:
-          status: ${{ job.status }}
+          status: custom
           fields: action
           # text: |
           #   ```
