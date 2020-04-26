@@ -70,8 +70,11 @@ async function run() {
       }
     }
 
-    core.setOutput('has_npm_update', result.length > 0);
-    core.setOutput('has_major_npm_update', await hasMajorUpdate(result));
+    core.setOutput('has_npm_update', result.length > 0 ? 'true' : 'false');
+    core.setOutput(
+      'has_major_npm_update',
+      (await hasMajorUpdate(result)) ? 'true' : 'false'
+    );
     core.setOutput('npm_update_formatted', await format(result));
     core.setOutput('npm_update_json', JSON.stringify(result));
   } catch (error) {
