@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - run: npm i
       - uses: ./
         id: package_update
       - run: echo "output has_npm_update ${{ steps.package_update.outputs.has_npm_update }}"
