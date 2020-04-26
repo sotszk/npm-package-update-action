@@ -1306,10 +1306,18 @@ const formatToColumns = async (pkgs) => {
 
   const keys = Object.keys(pkgs[0]);
 
-  const heads = '|' + keys.join('|') + '|';
-  const dividingRow = '|' + keys.map(() => ':--').join('|') + '|';
+  const header = '|' + keys.join('|') + '|';
+  const alignRow = '|' + keys.map(() => ':--').join('|') + '|';
+  const body = pkgs.map((pkg, index) => {
+    let row = '';
+    if (index > 0) {
+      row += os.EOL;
+    }
+    row += '|' + Object.values(pkg).join('|') + '|';
+    return row;
+  });
 
-  result += [heads, dividingRow].join(os.EOL);
+  result += [header, alignRow, body].join(os.EOL);
   return result;
 };
 
