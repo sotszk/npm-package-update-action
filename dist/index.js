@@ -1300,9 +1300,7 @@ const formatForMajorUpdate = async (pkgs) => {
 
 const formatToColumns = async (pkgs) => {
   let result = '';
-  if (!pkgs.length) {
-    return result;
-  }
+  if (!pkgs.length) return '';
 
   const keys = Object.keys(pkgs[0]);
 
@@ -1321,12 +1319,35 @@ const formatToColumns = async (pkgs) => {
   return result;
 };
 
+const formatToColumnsWithoutMajorUpdate = async (pkgs) => {
+  let result = '';
+  if (!pkgs.length) return '';
+
+  const keys = Object.keys(pkgs[0]).filter((key) => key !== 'latest');
+
+  const header = '|' + keys.join('|') + '|';
+  const alignRow = '|' + keys.map(() => ':--').join('|') + '|';
+  const body = pkgs.map((pkg, index) => {
+    let row = '';
+    if (index > 0) {
+      row += os.EOL;
+    }
+    const values = keys.map((key) => pkg[key]);
+    row += '|' + values.join('|') + '|';
+    return row;
+  });
+
+  result += [header, alignRow, body].join(os.EOL);
+  return result;
+};
+
 module.exports = {
   getMajorVersion,
   hasMajorUpdate,
   format,
   formatForMajorUpdate,
   formatToColumns,
+  formatToColumnsWithoutMajorUpdate,
 };
 
 
@@ -1567,6 +1588,7 @@ const {
   format,
   formatForMajorUpdate,
   formatToColumns,
+  formatToColumnsWithoutMajorUpdate,
 } = __webpack_require__(478);
 
 async function getOptions() {
@@ -1643,6 +1665,10 @@ async function run() {
     core.setOutput(
       'npm_update_formatted_columns',
       await formatToColumns(result)
+    );
+    core.setOutput(
+      'npm_update_formatted_columns_without_major_update',
+      await formatToColumnsWithoutMajorUpdate(result)
     );
     core.setOutput(
       'npm_update_formatted_major_update',
