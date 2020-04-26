@@ -41,9 +41,10 @@ jobs:
           status: ${{ job.status }}
           fields: action
           text: |
+            :white_check_mark:
             *New major update available*
 
-            ${{ steps.package_update.outputs.npm_update_formatted_major_update }}
+            ```${{ steps.package_update.outputs.npm_update_formatted_major_update }}```
 
             *Pull Request created*
             URL: https://github.com/pull/${{ steps.cpr.outputs.pr_number }}
