@@ -1,114 +1,59 @@
 
 <p align="center">
-  <a href="https://github.com/actions/javascript-action/actions"><img alt="javscript-action status" src="https://github.com/actions/javascript-action/workflows/units-test/badge.svg"></a>
+  <a href="https://github.com/SotaSuzuki/npm-package-update-action/action"><img alt="javscript-action status" src="https://github.com/SotaSuzuki/npm-package-update-action/workflows/package-update/badge.svg"></a>
 </p>
 
-# Create a JavaScript Action
+# npm package update action
 
-Use this template to bootstrap the creation of a JavaScript action.:rocket:
+This action is to know whether new version available on your project's package dependencies.
 
-This template includes tests, linting, a validation workflow, publishing, and versioning guidance.  
+## Inputs
 
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
+### `execute_directories` (**optional**)
 
-## Create an action from this template
+- directories where the action is executed
+- multiple directories available
 
-Click the `Use this Template` and provide the new repo details for your action
-
-## Code in Master
-
-Install the dependencies  
-```bash
-$ npm install
+Example:
+```yml
+- uses: SotaSuzuki/npm-package-update-action@v1
+  id: package-update
+  with:
+    execute_directories: |
+      dir1
+      dir2
 ```
 
-Run the tests :heavy_check_mark:  
-```bash
-$ npm test
+## Outputs
 
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
+### `has_npm_update`
 
-...
-```
+- whether new version available or not
+- the result must be `yes` or `no`
 
-## Change action.yml
+### `has_major_npm_update`
 
-The action.yml contains defines the inputs and output for your action.
+- whether new major version available or not
+- the result must be `yes` or `no`
 
-Update the action.yml with your name, description, inputs and outputs for your action.
+## `npm_update_json`
 
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
+- new version information as json
 
-## Change the Code
+## `npm_update_formatted`
 
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
+- new version information as formatted with plain text
 
-```javascript
-const core = require('@actions/core');
-...
+## `npm_update_formatted_major_update`
 
-async function run() {
-  try { 
-      ...
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
+- new version information as formatted with plain text
+- only packages that have major update available
 
-run()
-```
+## `npm_update_formatted_columns`
 
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
+- new version information as formatted with column style for markdown table
 
-## Package for distribution
+## `npm_update_formatted_columns_without_major_update`
 
-GitHub Actions will run the entry point from the action.yml. Packaging assembles the code into one file that can be checked in to Git, enabling fast and reliable execution and preventing the need to check in node_modules.
-
-Actions are run from GitHub repos.  Packaging the action will create a packaged action in the dist folder.
-
-Run package
-
-```bash
-npm run package
-```
-
-Since the packaged index.js is run from the dist folder.
-
-```bash
-git add dist
-```
-
-## Create a release branch
-
-Users shouldn't consume the action from master since that would be latest code and actions can break compatibility between major versions.
-
-Checkin to the v1 release branch
-
-```bash
-$ git checkout -b v1
-$ git commit -a -m "v1 release"
-```
-
-```bash
-$ git push origin v1
-```
-
-Your action is now published! :rocket: 
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Usage
-
-You can now consume the action by referencing the v1 branch
-
-```yaml
-uses: actions/javascript-action@v1
-with:
-  milliseconds: 1000
-```
-
-See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:
+- new version information as formatted with column style for markdown table
+- ignore major update

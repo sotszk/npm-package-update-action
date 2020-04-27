@@ -10,11 +10,15 @@ outputs:
   has_major_npm_update:
     description: 'has new major package version?'
   npm_update_json:
-    description: 'new package version info with json'
+    description: 'new package version info as json'
   npm_update_formatted:
-    description: 'new package version info with formatted text'
+    description: 'new package version info as formatted text'
+  npm_update_formatted_columns:
+    description: 'new package version info as formatted columns for markdown'
+  npm_update_formatted_columns_without_major_update:
+    description: 'new package version info without major update as formatted columns for markdown'
   npm_update_formatted_major_update:
-    description: 'new package version info that has major update available with formatted text'
+    description: 'new package version info that has major update available as formatted plain text'
 runs:
   using: 'node12'
   main: 'dist/index.js'
