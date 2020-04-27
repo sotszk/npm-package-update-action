@@ -1,10 +1,8 @@
 name: 'package-update'
 on:
-  pull_request:
   push:
     branches:
-      - master
-      - 'releases/*'
+      - release/*
 
 jobs:
   pacage-update:
@@ -50,8 +48,6 @@ jobs:
             URL: https://github.com/${{ github.repository }}/pull/${{ steps.cpr.outputs.pr_number }}
           author_name: ${{ github.actor }}
           username: 'アップデートおじさん'
-          mention: 'UF660LNH2'
-          if_mention: always
           icon_emoji: ':octocat:'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
